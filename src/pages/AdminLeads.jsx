@@ -199,9 +199,22 @@ export default function AdminLeads() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-black px-6 py-10 text-white">
-      <div className="mx-auto max-w-7xl">
-        <header className="rounded-[2rem] border border-white/10 bg-zinc-950/90 p-8 shadow-[0_30px_80px_rgba(0,0,0,0.45)] backdrop-blur">
+    <main
+      className="relative min-h-screen overflow-hidden bg-black px-6 py-10 text-white"
+      style={{
+        backgroundImage: "url('/images/hero-tria.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div className="absolute inset-0 bg-black/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/85 to-black" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/40" />
+
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <header className="rounded-[2rem] border border-white/10 bg-zinc-950/80 p-8 shadow-[0_30px_80px_rgba(0,0,0,0.65)] backdrop-blur-xl">
           <div className="flex flex-col gap-6 border-b border-white/10 pb-8 md:flex-row md:items-end md:justify-between">
             <div>
               <a
@@ -270,7 +283,7 @@ export default function AdminLeads() {
             ))}
           </section>
 
-          <section className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
+          <section className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/45 p-5 backdrop-blur">
             <div className="grid gap-4 lg:grid-cols-[1.4fr_0.8fr_auto] lg:items-end">
               <div>
                 <label className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-500">
@@ -282,7 +295,7 @@ export default function AdminLeads() {
                   value={searchTerm}
                   onChange={(event) => setSearchTerm(event.target.value)}
                   placeholder="Buscar por nome, empresa, e-mail, WhatsApp, serviço ou mensagem..."
-                  className="mt-3 w-full rounded-2xl border border-white/10 bg-zinc-950 px-5 py-4 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-white/30"
+                  className="mt-3 w-full rounded-2xl border border-white/10 bg-zinc-950/90 px-5 py-4 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-white/30"
                 />
               </div>
 
@@ -294,7 +307,7 @@ export default function AdminLeads() {
                 <select
                   value={selectedStatus}
                   onChange={(event) => setSelectedStatus(event.target.value)}
-                  className="mt-3 w-full rounded-2xl border border-white/10 bg-zinc-950 px-5 py-4 text-sm text-white outline-none transition focus:border-white/30"
+                  className="mt-3 w-full rounded-2xl border border-white/10 bg-zinc-950/90 px-5 py-4 text-sm text-white outline-none transition focus:border-white/30"
                 >
                   {statusFilterOptions.map((status) => (
                     <option key={status.value} value={status.value}>
@@ -321,9 +334,7 @@ export default function AdminLeads() {
                   {filteredLeads.length}
                 </span>{" "}
                 de{" "}
-                <span className="font-semibold text-white">
-                  {leads.length}
-                </span>{" "}
+                <span className="font-semibold text-white">{leads.length}</span>{" "}
                 leads.
               </p>
 
@@ -343,17 +354,17 @@ export default function AdminLeads() {
         </header>
 
         {errorMessage && (
-          <div className="mt-8 rounded-2xl border border-red-500/20 bg-red-500/10 px-5 py-4 text-sm text-red-200">
+          <div className="mt-8 rounded-2xl border border-red-500/20 bg-red-500/10 px-5 py-4 text-sm text-red-200 backdrop-blur">
             {errorMessage}
           </div>
         )}
 
         {loading ? (
-          <div className="mt-10 rounded-[2rem] border border-white/10 bg-zinc-950/90 p-8 text-zinc-400">
+          <div className="mt-10 rounded-[2rem] border border-white/10 bg-zinc-950/85 p-8 text-zinc-400 backdrop-blur-xl">
             Carregando leads...
           </div>
         ) : filteredLeads.length === 0 ? (
-          <div className="mt-10 rounded-[2rem] border border-white/10 bg-zinc-950/90 p-8 text-zinc-400">
+          <div className="mt-10 rounded-[2rem] border border-white/10 bg-zinc-950/85 p-8 text-zinc-400 backdrop-blur-xl">
             Nenhum lead encontrado com os filtros aplicados.
           </div>
         ) : (
