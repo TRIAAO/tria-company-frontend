@@ -8,19 +8,21 @@ export default function About() {
           </p>
 
           <h2 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight md:text-6xl">
-            Uma empresa de tecnologia focada em clareza, execução e resultado.
+            Uma empresa que une conhecimento, tecnologia e estratégia para gerar
+            impacto real.
           </h2>
 
           <p className="mt-8 max-w-3xl text-lg leading-relaxed text-zinc-600">
-            A TRIA Company atua no desenvolvimento de soluções digitais para
-            empresas que precisam sair da ideia e chegar a um produto funcional,
-            elegante e preparado para o mercado.
+            A TRIA Company atua na estruturação de soluções digitais,
+            educacionais e corporativas para organizações que precisam
+            transformar ideias em projetos consistentes, funcionais e preparados
+            para crescer.
           </p>
 
           <p className="mt-5 max-w-3xl text-lg leading-relaxed text-zinc-600">
-            Nosso trabalho combina estratégia, design, tecnologia e visão de
-            negócio para entregar páginas, sistemas, integrações e plataformas
-            com identidade forte e experiência profissional.
+            Nosso trabalho combina visão estratégica, educação, tecnologia,
+            comunicação e execução para criar experiências, plataformas e
+            iniciativas que conectam pessoas, empresas e oportunidades.
           </p>
 
           <div className="mt-10 rounded-[2rem] bg-black p-8 text-white">
@@ -28,18 +30,17 @@ export default function About() {
               Liderança
             </p>
 
-            <h3 className="mt-4 text-2xl font-semibold">
-              Tomas Camba
-            </h3>
+            <h3 className="mt-4 text-2xl font-semibold">Tomas Camba</h3>
 
             <p className="mt-1 text-sm uppercase tracking-[0.25em] text-zinc-500">
               CEO
             </p>
 
             <p className="mt-5 leading-relaxed text-zinc-300">
-              À frente da TRIA Company, lidera a construção de soluções digitais
-              com visão estratégica, foco em qualidade e compromisso com
-              resultados reais para empresas em crescimento.
+              À frente da TRIA Company, lidera uma visão voltada para
+              conhecimento, tecnologia e estratégia, impulsionando soluções que
+              ajudam organizações a estruturar ideias, fortalecer marcas e gerar
+              impacto corporativo.
             </p>
           </div>
         </div>
@@ -57,9 +58,7 @@ export default function About() {
                 CEO
               </p>
 
-              <h3 className="mt-2 text-3xl font-semibold">
-                Tomas Camba
-              </h3>
+              <h3 className="mt-2 text-3xl font-semibold">Tomas Camba</h3>
             </div>
           </div>
         </div>

@@ -2,22 +2,22 @@ const steps = [
   {
     title: "Diagnóstico",
     description:
-      "Entendemos o objetivo, o público, os problemas atuais e a visão do projeto.",
+      "Entendemos o contexto, os objetivos, os públicos e os desafios que precisam ser estruturados.",
   },
   {
-    title: "Estratégia",
+    title: "Estruturação",
     description:
-      "Definimos estrutura, prioridade, fluxo, tecnologias e caminho de execução.",
+      "Organizamos ideias, conteúdos, fluxos, prioridades e caminhos estratégicos para tornar o projeto claro e executável.",
   },
   {
-    title: "Desenvolvimento",
+    title: "Execução",
     description:
-      "Construímos a solução com atenção ao visual, performance, segurança e usabilidade.",
+      "Transformamos a estratégia em soluções digitais, educacionais ou corporativas com atenção à experiência, qualidade e consistência.",
   },
   {
-    title: "Entrega",
+    title: "Impacto",
     description:
-      "Validamos, ajustamos, colocamos online e preparamos os próximos passos do crescimento.",
+      "Acompanhamos a entrega com foco em resultado, melhoria contínua e geração de valor para pessoas e organizações.",
   },
 ];
 
@@ -28,11 +28,11 @@ export default function Method() {
         <div className="grid gap-12 md:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500">
-              Nosso método
+              Método TRIA
             </p>
 
             <h2 className="mt-5 text-4xl font-semibold tracking-tight md:text-6xl">
-              Uma forma clara de transformar ideias em entregas reais.
+              Uma metodologia clara para transformar conhecimento em execução.
             </h2>
           </div>
 
@@ -48,9 +48,7 @@ export default function Method() {
                   </span>
 
                   <div>
-                    <h3 className="text-xl font-semibold">
-                      {step.title}
-                    </h3>
+                    <h3 className="text-xl font-semibold">{step.title}</h3>
 
                     <p className="mt-3 leading-relaxed text-zinc-400">
                       {step.description}
@@ -63,9 +61,9 @@ export default function Method() {
         </div>
 
         <div className="mt-20 rounded-[2rem] bg-white p-8 text-black md:p-12">
-          <p className="max-w-4xl text-3xl font-semibold leading-tight tracking-tight md:text-5xl">
-            “A tecnologia certa não apenas apresenta uma empresa. Ela organiza,
-            conecta e acelera o crescimento.”
+          <p className="max-w-5xl text-3xl font-semibold leading-tight tracking-tight md:text-5xl">
+            “Quando conhecimento, tecnologia e estratégia caminham juntos, ideias
+            deixam de ser intenção e passam a gerar impacto.”
           </p>
         </div>
       </div>
