@@ -1,69 +1,87 @@
+import React from "react";
+
 const steps = [
   {
-    title: "Diagnóstico",
+    number: "01",
+    title: "Escuta",
     description:
-      "Entendemos o contexto, os objetivos, os públicos e os desafios que precisam ser estruturados.",
+      "Mapeamos o contexto, a cultura, os objetivos e os desafios reais da organização. Não começamos com soluções. Começamos com perguntas certas.",
   },
   {
-    title: "Estruturação",
+    number: "02",
+    title: "Arquitetura",
     description:
-      "Organizamos ideias, conteúdos, fluxos, prioridades e caminhos estratégicos para tornar o projeto claro e executável.",
+      "Organizamos o que foi escutado em uma estrutura estratégica: prioridades, fluxos, narrativa, mapa de conhecimento e plano de execução.",
   },
   {
-    title: "Execução",
+    number: "03",
+    title: "Construção",
     description:
-      "Transformamos a estratégia em soluções digitais, educacionais ou corporativas com atenção à experiência, qualidade e consistência.",
+      "Executamos com o time da TRIA e com os parceiros internos da organização. Entregamos com qualidade, não com velocidade.",
   },
   {
-    title: "Impacto",
+    number: "04",
+    title: "Instalação",
     description:
-      "Acompanhamos a entrega com foco em resultado, melhoria contínua e geração de valor para pessoas e organizações.",
+      "Implantamos o que foi construído dentro da cultura e dos processos da organização — com formação, suporte e acompanhamento.",
+  },
+  {
+    number: "05",
+    title: "Tutela",
+    description:
+      "Permanecemos como parceiros estratégicos. Acompanhamos a evolução, ajustamos o que precisa ser ajustado, e garantimos que a infraestrutura funcione no longo prazo.",
   },
 ];
 
 export default function Method() {
   return (
-    <section id="method" className="bg-black px-6 py-24 text-white">
+    <section id="metodo" className="bg-[#0A0A0A] px-6 py-28 text-white lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-12 md:grid-cols-[0.9fr_1.1fr]">
+        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500">
+            <p className="text-sm font-bold uppercase tracking-[0.35em] text-[#D4AF37]">
               Método TRIA
             </p>
 
-            <h2 className="mt-5 text-4xl font-semibold tracking-tight md:text-6xl">
-              Uma metodologia clara para transformar conhecimento em execução.
+            <h2 className="mt-6 text-4xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
+              O Método Construtor: um método para organizações que constroem
+              para durar.
             </h2>
           </div>
 
-          <div className="space-y-4">
-            {steps.map((step, index) => (
-              <div
-                key={step.title}
-                className="rounded-[1.5rem] border border-white/10 p-6"
-              >
-                <div className="flex items-start gap-6">
-                  <span className="text-sm text-zinc-500">
-                    0{index + 1}
-                  </span>
-
-                  <div>
-                    <h3 className="text-xl font-semibold">{step.title}</h3>
-
-                    <p className="mt-3 leading-relaxed text-zinc-400">
-                      {step.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <p className="text-lg leading-8 text-zinc-300">
+            Não trabalhamos com entregas isoladas. Trabalhamos com ciclos
+            completos de engajamento institucional, cinco atos que transformam a
+            intenção em infraestrutura.
+          </p>
         </div>
 
-        <div className="mt-20 rounded-[2rem] bg-white p-8 text-black md:p-12">
-          <p className="max-w-5xl text-3xl font-semibold leading-tight tracking-tight md:text-5xl">
-            “Quando conhecimento, tecnologia e estratégia caminham juntos, ideias
-            deixam de ser intenção e passam a gerar impacto.”
+        <div className="mt-16 space-y-5">
+          {steps.map((step) => (
+            <article
+              key={step.number}
+              className="grid gap-6 rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 transition hover:border-[#D4AF37]/50 md:grid-cols-[120px_1fr]"
+            >
+              <div className="text-4xl font-semibold text-[#D4AF37]">
+                {step.number}
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-semibold text-white">
+                  {step.title}
+                </h3>
+
+                <p className="mt-4 max-w-4xl text-base leading-8 text-zinc-400">
+                  {step.description}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-14 rounded-[2rem] border border-[#D4AF37]/30 bg-[#D4AF37]/10 p-8">
+          <p className="text-2xl font-medium leading-snug text-white md:text-3xl">
+            “Construímos infraestrutura — não entregamos projetos e saímos.”
           </p>
         </div>
       </div>

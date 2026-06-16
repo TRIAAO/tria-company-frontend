@@ -1,61 +1,61 @@
+import React from "react";
+
 const services = [
   {
-    title: "Conhecimento e Educação",
+    number: "01",
+    title: "Educação e Gestão do Conhecimento",
     description:
-      "Estruturamos conteúdos, programas e experiências educacionais para capacitar pessoas, equipas e organizações.",
+      "Estruturamos programas de educação corporativa, universidades institucionais e sistemas de gestão do conhecimento para organizações que precisam capacitar pessoas com consistência, não com treinamentos pontuais.",
   },
   {
-    title: "Tecnologia e Soluções Digitais",
+    number: "02",
+    title: "Estratégia e Comunicação Institucional",
     description:
-      "Criamos páginas, plataformas, sistemas e ferramentas digitais que apoiam operações, comunicação e crescimento.",
+      "Ajudamos líderes e organizações a organizar o que pensam, e a comunicar isso com autoridade. Isso inclui posicionamento estratégico, narrativa institucional, publicações de alto padrão e projetos editoriais que constroem legado. Atuamos em grandes relatórios de impacto a livros corporativos trilíngues.",
   },
   {
-    title: "Estratégia Corporativa",
+    number: "03",
+    title: "Tecnologia e Plataformas Digitais",
     description:
-      "Apoiamos empresas na organização de ideias, posicionamento, processos e iniciativas orientadas a resultado.",
-  },
-  {
-    title: "Projetos de Alto Impacto",
-    description:
-      "Transformamos desafios em projetos claros, executáveis e preparados para gerar valor em ambientes digitais, educacionais e corporativos.",
+      "Desenvolvemos plataformas, sistemas e presença digital que sustentam operações educacionais e institucionais de longo prazo, não landing pages avulsas. A tecnologia na TRIA serve a uma estratégia, não a substitui.",
   },
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="bg-zinc-100 px-6 py-24 text-black">
+    <section id="areas" className="bg-[#050505] px-6 py-28 text-white lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="max-w-4xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500">
+        <div className="max-w-3xl">
+          <p className="text-sm font-bold uppercase tracking-[0.35em] text-[#D4AF37]">
             Áreas de atuação
           </p>
 
-          <h2 className="mt-5 text-4xl font-semibold tracking-tight md:text-6xl">
-            Estruturamos ideias para que elas se tornem soluções relevantes.
+          <h2 className="mt-6 text-4xl font-semibold tracking-[-0.03em] md:text-5xl">
+            Três frentes. Uma lógica única.
           </h2>
 
-          <p className="mt-6 max-w-3xl text-lg leading-relaxed text-zinc-600">
-            A TRIA conecta conhecimento, tecnologia e estratégia para apoiar
-            empresas, instituições e projetos que precisam evoluir com clareza,
-            presença digital e impacto.
+          <p className="mt-6 text-lg leading-8 text-zinc-300">
+            A TRIA atua em três dimensões que, juntas, formam a infraestrutura
+            intelectual de uma organização: o que ela sabe, como ela opera e
+            como ela se comunica.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-4 md:grid-cols-2">
-          {services.map((service, index) => (
+        <div className="mt-16 grid gap-6 lg:grid-cols-3">
+          {services.map((service) => (
             <article
-              key={service.title}
-              className="min-h-64 rounded-[2rem] bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+              key={service.number}
+              className="group rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 transition hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/[0.06]"
             >
-              <span className="text-sm text-zinc-400">
-                0{index + 1}
+              <span className="text-sm font-bold tracking-[0.3em] text-[#D4AF37]">
+                {service.number}
               </span>
 
-              <h3 className="mt-10 text-2xl font-semibold">
+              <h3 className="mt-8 text-2xl font-semibold leading-tight text-white">
                 {service.title}
               </h3>
 
-              <p className="mt-4 max-w-xl leading-relaxed text-zinc-600">
+              <p className="mt-6 text-base leading-8 text-zinc-400">
                 {service.description}
               </p>
             </article>

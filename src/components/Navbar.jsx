@@ -7,36 +7,40 @@ export default function Navbar() {
         </a>
 
         <nav className="hidden items-center gap-7 text-sm text-zinc-300 lg:flex">
-          <a href="#about" className="transition hover:text-white">
+          <a href="#sobre" className="transition hover:text-white">
             Sobre
           </a>
 
-          <a href="#services" className="transition hover:text-white">
+          <a href="#areas" className="transition hover:text-white">
             Atuação
           </a>
 
-          <a href="#method" className="transition hover:text-white">
+          <a href="#metodo" className="transition hover:text-white">
             Método
           </a>
 
-          <a href="#partners" className="transition hover:text-white">
-            Parceiros
+          <a href="#mercados" className="transition hover:text-white">
+            Onde atuamos
           </a>
 
-          <a href="#testimonials" className="transition hover:text-white">
+          <a href="#time" className="transition hover:text-white">
+            Time
+          </a>
+
+          <a href="#depoimentos" className="transition hover:text-white">
             Depoimentos
           </a>
 
-          <a href="#contact" className="transition hover:text-white">
+          <a href="#contato" className="transition hover:text-white">
             Contato
           </a>
         </nav>
 
         <a
-          href="#contact"
-          className="rounded-full border border-white px-5 py-2 text-sm font-medium text-white transition hover:bg-white hover:text-black"
+          href="#contato"
+          className="rounded-full border border-[#D4AF37] px-5 py-2 text-sm font-medium text-[#D4AF37] transition hover:bg-[#D4AF37] hover:text-black"
         >
-          Fale conosco
+          Fale com a TRIA
         </a>
       </div>
     </header>

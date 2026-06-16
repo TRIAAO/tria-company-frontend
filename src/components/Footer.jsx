@@ -7,7 +7,7 @@ export default function Footer() {
         </p>
 
         <p>
-          Work, reimagined by TRIA Company.
+          Desenvolvido pela TRIA Company e por Wilson Dala Ndembuza.
         </p>
       </div>
     </footer>

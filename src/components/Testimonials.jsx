@@ -1,65 +1,63 @@
+import React from "react";
+
 const testimonials = [
   {
-    quote:
-      "A TRIA nos ajudou a organizar ideias, estruturar a comunicação e transformar uma necessidade interna em uma solução clara e profissional.",
-    name: "Ana Rodrigues",
-    role: "Gestora de Projeto",
-    company: "Cliente Corporativo",
+    text: "A TRIA nos ajudou a organizar ideias complexas em uma narrativa institucional clara, forte e respeitada.",
+    name: "Nome Completo",
+    role: "Cargo",
+    organization: "Organização",
+    country: "País",
   },
   {
-    quote:
-      "O diferencial da TRIA está na capacidade de unir visão estratégica, conhecimento e tecnologia em entregas com impacto real.",
-    name: "Direção Executiva",
-    role: "Parceiro Institucional",
-    company: "Organização Parceira",
+    text: "O trabalho foi além da entrega. Houve escuta, profundidade e uma capacidade rara de transformar conhecimento em estrutura.",
+    name: "Nome Completo",
+    role: "Cargo",
+    organization: "Organização",
+    country: "País",
   },
   {
-    quote:
-      "Mais do que executar, a TRIA entende o contexto do projeto e propõe caminhos que tornam a solução mais forte, funcional e preparada para crescer.",
-    name: "Coordenação Operacional",
-    role: "Área de Inovação",
-    company: "Empresa Atendida",
+    text: "Com a TRIA, conseguimos comunicar com mais autoridade e estruturar melhor aquilo que a nossa organização já sabia, mas ainda não tinha organizado.",
+    name: "Nome Completo",
+    role: "Cargo",
+    organization: "Organização",
+    country: "País",
   },
 ];
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="bg-white px-6 py-24 text-black">
+    <section
+      id="depoimentos"
+      className="bg-[#050505] px-6 py-28 text-white lg:px-8"
+    >
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-10 md:grid-cols-[0.8fr_1.2fr]">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500">
-              Depoimentos
-            </p>
-          </div>
+        <div className="max-w-4xl">
+          <p className="text-sm font-bold uppercase tracking-[0.35em] text-[#D4AF37]">
+            Depoimentos
+          </p>
 
-          <div>
-            <h2 className="max-w-4xl text-4xl font-semibold tracking-tight md:text-6xl">
-              A confiança nasce quando estratégia, execução e resultado caminham juntos.
-            </h2>
-
-            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-zinc-600">
-              A TRIA Company trabalha lado a lado com empresas, equipas e
-              instituições para transformar necessidades em projetos claros,
-              consistentes e preparados para gerar impacto.
-            </p>
-          </div>
+          <h2 className="mt-6 text-4xl font-semibold tracking-[-0.03em] md:text-5xl">
+            Quem já construiu com a TRIA.
+          </h2>
         </div>
 
-        <div className="mt-16 grid gap-5 md:grid-cols-3">
-          {testimonials.map((item) => (
+        <div className="mt-16 grid gap-6 lg:grid-cols-3">
+          {testimonials.map((testimonial, index) => (
             <article
-              key={`${item.name}-${item.company}`}
-              className="flex min-h-[320px] flex-col justify-between rounded-[2rem] border border-zinc-200 bg-zinc-50 p-8"
+              key={index}
+              className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8"
             >
-              <p className="text-2xl font-semibold leading-tight text-black">
-                “{item.quote}”
+              <p className="text-xl leading-9 text-white">
+                “{testimonial.text}”
               </p>
 
-              <div className="mt-10 border-t border-zinc-200 pt-6">
-                <p className="font-semibold text-black">{item.name}</p>
-                <p className="mt-1 text-sm text-zinc-500">{item.role}</p>
-                <p className="mt-1 text-sm text-zinc-400">{item.company}</p>
+              <div className="mt-8 border-t border-white/10 pt-6">
+                <p className="font-semibold text-white">{testimonial.name}</p>
+
+                <p className="mt-2 text-sm leading-6 text-zinc-400">
+                  {testimonial.role} | {testimonial.organization} |{" "}
+                  {testimonial.country}
+                </p>
               </div>
             </article>
           ))}
