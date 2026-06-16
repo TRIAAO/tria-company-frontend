@@ -1,41 +1,126 @@
-import React from "react";
+import React, { useState } from "react";
+import useSiteContent from "../hooks/useSiteContent";
 
-const serviceOptions = [
-  "Educação Corporativa e Universidade Institucional",
-  "Estratégia e Comunicação Institucional",
-  "Projeto Editorial ou Publicação de Alto Padrão",
-  "Plataforma Digital Institucional",
-  "Outro projeto estratégico",
-];
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
+
+const fallbackContact = {
+  label: "CONTATO",
+  title: "A próxima grande decisão começa com uma conversa.",
+  description:
+    "Se a sua organização precisa estruturar o que sabe, comunicar com autoridade ou construir uma plataforma de educação e conhecimento de longo prazo — fale com a TRIA.",
+  highlight:
+    "Infraestrutura intelectual para organizações que constroem para durar.",
+  services: [
+    "Educação Corporativa e Universidade Institucional",
+    "Estratégia e Comunicação Institucional",
+    "Projeto Editorial ou Publicação de Alto Padrão",
+    "Plataforma Digital Institucional",
+    "Outro projeto estratégico",
+  ],
+};
+
+function getValidServices(services) {
+  if (!Array.isArray(services)) return fallbackContact.services;
+
+  const valid = services.filter((service) => String(service || "").trim());
+
+  return valid.length > 0 ? valid : fallbackContact.services;
+}
 
 export default function Contact() {
+  const { data: contact } = useSiteContent("contact", fallbackContact);
+  const serviceOptions = getValidServices(contact.services);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    email: "",
+    phone: "",
+    service_interest: "",
+    message: "",
+    source: "landing_page",
+  });
+
+  const [sending, setSending] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  function updateField(field, value) {
+    setFormData((previous) => ({
+      ...previous,
+      [field]: value,
+    }));
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    setSending(true);
+    setSuccessMessage("");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch(`${API_URL}/leads`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error(data);
+        setErrorMessage("Não foi possível enviar sua mensagem. Tente novamente.");
+        return;
+      }
+
+      setSuccessMessage("Mensagem enviada com sucesso. A TRIA entrará em contato.");
+      setFormData({
+        name: "",
+        company: "",
+        email: "",
+        phone: "",
+        service_interest: "",
+        message: "",
+        source: "landing_page",
+      });
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Erro de conexão. Confirme sua internet e tente novamente.");
+    } finally {
+      setSending(false);
+    }
+  }
+
   return (
     <section id="contato" className="bg-[#050505] px-6 py-28 text-white lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.9fr_1.1fr]">
         <div>
           <p className="text-sm font-bold uppercase tracking-[0.35em] text-[#D4AF37]">
-            Contato
+            {contact.label || fallbackContact.label}
           </p>
 
           <h2 className="mt-6 text-4xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
-            A próxima grande decisão começa com uma conversa.
+            {contact.title || fallbackContact.title}
           </h2>
 
           <p className="mt-6 text-lg leading-8 text-zinc-300">
-            Se a sua organização precisa estruturar o que sabe, comunicar com
-            autoridade ou construir uma plataforma de educação e conhecimento de
-            longo prazo — fale com a TRIA.
+            {contact.description || fallbackContact.description}
           </p>
 
           <div className="mt-10 rounded-[2rem] border border-[#D4AF37]/30 bg-[#D4AF37]/10 p-8">
             <p className="text-2xl font-medium leading-snug text-white">
-              Infraestrutura intelectual para organizações que constroem para
-              durar.
+              {contact.highlight || fallbackContact.highlight}
             </p>
           </div>
         </div>
 
-        <form className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8">
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8"
+        >
           <div className="grid gap-6 md:grid-cols-2">
             <div>
               <label className="mb-2 block text-sm font-medium text-zinc-300">
@@ -43,7 +128,10 @@ export default function Contact() {
               </label>
               <input
                 type="text"
+                value={formData.name}
+                onChange={(event) => updateField("name", event.target.value)}
                 placeholder="Seu nome"
+                required
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-[#D4AF37]"
               />
             </div>
@@ -54,6 +142,8 @@ export default function Contact() {
               </label>
               <input
                 type="text"
+                value={formData.company}
+                onChange={(event) => updateField("company", event.target.value)}
                 placeholder="Nome da organização"
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-[#D4AF37]"
               />
@@ -65,7 +155,10 @@ export default function Contact() {
               </label>
               <input
                 type="email"
+                value={formData.email}
+                onChange={(event) => updateField("email", event.target.value)}
                 placeholder="seuemail@empresa.com"
+                required
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-[#D4AF37]"
               />
             </div>
@@ -76,6 +169,8 @@ export default function Contact() {
               </label>
               <input
                 type="tel"
+                value={formData.phone}
+                onChange={(event) => updateField("phone", event.target.value)}
                 placeholder="+244 / +55"
                 className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-[#D4AF37]"
               />
@@ -86,7 +181,14 @@ export default function Contact() {
             <label className="mb-2 block text-sm font-medium text-zinc-300">
               Serviço de interesse
             </label>
-            <select className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition focus:border-[#D4AF37]">
+            <select
+              value={formData.service_interest}
+              onChange={(event) =>
+                updateField("service_interest", event.target.value)
+              }
+              required
+              className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition focus:border-[#D4AF37]"
+            >
               <option value="">Selecione uma opção</option>
               {serviceOptions.map((option) => (
                 <option key={option} value={option} className="bg-black">
@@ -102,16 +204,32 @@ export default function Contact() {
             </label>
             <textarea
               rows="6"
+              value={formData.message}
+              onChange={(event) => updateField("message", event.target.value)}
               placeholder="Conte brevemente sobre o desafio da sua organização."
+              required
               className="w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-[#D4AF37]"
             />
           </div>
 
+          {successMessage && (
+            <div className="mt-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-5 py-4 text-sm text-emerald-200">
+              {successMessage}
+            </div>
+          )}
+
+          {errorMessage && (
+            <div className="mt-6 rounded-2xl border border-red-500/20 bg-red-500/10 px-5 py-4 text-sm text-red-200">
+              {errorMessage}
+            </div>
+          )}
+
           <button
             type="submit"
-            className="mt-8 w-full rounded-full bg-[#D4AF37] px-8 py-4 text-sm font-bold uppercase tracking-[0.2em] text-black transition hover:bg-white"
+            disabled={sending}
+            className="mt-8 w-full rounded-full bg-[#D4AF37] px-8 py-4 text-sm font-bold uppercase tracking-[0.2em] text-black transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Fale com a TRIA
+            {sending ? "Enviando..." : "Fale com a TRIA"}
           </button>
         </form>
       </div>
