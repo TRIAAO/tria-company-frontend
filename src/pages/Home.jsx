@@ -7,6 +7,7 @@ import Services from "../components/Services";
 import Method from "../components/Method";
 import Markets from "../components/Markets";
 import Team from "../components/Team";
+import Clients from "../components/Clients";
 import Testimonials from "../components/Testimonials";
 import Manifesto from "../components/Manifesto";
 import Contact from "../components/Contact";
@@ -22,6 +23,7 @@ export default function Home() {
       <Method />
       <Markets />
       <Team />
+      <Clients />
       <Testimonials />
       <Manifesto />
       <Contact />

@@ -3,6 +3,30 @@ import LeadCard from "../components/LeadCard";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
 
+const sidebarItems = [
+  {
+    id: "leads",
+    label: "Leads",
+    description: "Contatos recebidos",
+    href: "/admin/leads",
+    active: true,
+  },
+  {
+    id: "content",
+    label: "Conteúdo",
+    description: "CMS do site",
+    href: "/admin/content",
+    active: false,
+  },
+  {
+    id: "landing",
+    label: "Landing",
+    description: "Ver site público",
+    href: "/",
+    active: false,
+  },
+];
+
 const statusLabels = {
   NEW: "Novos",
   CONTACTED: "Contactados",
@@ -45,6 +69,9 @@ export default function AdminLeads() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("ALL");
+
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const leadStats = useMemo(() => {
     const stats = {
@@ -194,13 +221,18 @@ export default function AdminLeads() {
     setSelectedStatus("ALL");
   }
 
+  function handleLogout() {
+    localStorage.removeItem("tria_admin_auth");
+    window.location.href = "/admin/login";
+  }
+
   useEffect(() => {
     fetchLeads();
   }, []);
 
   return (
     <main
-      className="relative min-h-screen overflow-hidden bg-black px-6 py-10 text-white"
+      className="relative min-h-screen overflow-hidden bg-black text-white"
       style={{
         backgroundImage: "url('/images/hero-tria.png')",
         backgroundSize: "cover",
@@ -209,178 +241,376 @@ export default function AdminLeads() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="absolute inset-0 bg-black/80" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/85 to-black" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/40" />
+      <div className="fixed inset-0 bg-black/85" />
+      <div className="fixed inset-0 bg-gradient-to-b from-black/70 via-black/90 to-black" />
+      <div className="fixed inset-0 bg-gradient-to-r from-black via-black/75 to-black/40" />
 
-      <div className="relative z-10 mx-auto max-w-7xl">
-        <header className="rounded-[2rem] border border-white/10 bg-zinc-950/80 p-8 shadow-[0_30px_80px_rgba(0,0,0,0.65)] backdrop-blur-xl">
-          <div className="flex flex-col gap-6 border-b border-white/10 pb-8 md:flex-row md:items-end md:justify-between">
-            <div>
-              <a
-                href="/"
-                className="text-sm font-medium text-zinc-500 transition hover:text-white"
-              >
-                ← Voltar para landing
-              </a>
+      {mobileSidebarOpen && (
+        <button
+          type="button"
+          aria-label="Fechar menu lateral"
+          onClick={() => setMobileSidebarOpen(false)}
+          className="fixed inset-0 z-30 bg-black/70 lg:hidden"
+        />
+      )}
 
-              <p className="mt-8 text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500">
-                Painel interno
-              </p>
-
-              <h1 className="mt-4 text-4xl font-semibold tracking-tight text-white md:text-6xl">
-                Leads recebidos
-              </h1>
-
-              <p className="mt-4 max-w-2xl text-zinc-400">
-                Área interna da TRIA Company para acompanhar, organizar e
-                converter os contatos enviados pela landing page.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-3">
-              <button
-                onClick={fetchLeads}
-                className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-zinc-200"
-              >
-                Atualizar lista
-              </button>
-
-              <button
-                onClick={() => {
-                  localStorage.removeItem("tria_admin_auth");
-                  window.location.href = "/admin/login";
-                }}
-                className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/35 hover:bg-white/5"
-              >
-                Sair
-              </button>
-            </div>
+      <aside
+        className={`fixed bottom-0 left-0 top-0 z-40 flex flex-col border-r border-white/10 bg-zinc-950/95 shadow-[30px_0_80px_rgba(0,0,0,0.65)] backdrop-blur-xl transition-all duration-300 ${
+          sidebarOpen ? "lg:w-64" : "lg:w-20"
+        } ${
+          mobileSidebarOpen
+            ? "w-72 translate-x-0"
+            : "w-72 -translate-x-full lg:translate-x-0"
+        }`}
+      >
+        <div className="flex items-center justify-between border-b border-white/10 p-4">
+          <div className={`${sidebarOpen ? "lg:block" : "lg:hidden"}`}>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-[#D4AF37]">
+              TRIA
+            </p>
+            <h2 className="mt-1 text-base font-semibold text-white">
+              Painel interno
+            </h2>
           </div>
 
-          <section className="mt-8 grid gap-4 md:grid-cols-3 lg:grid-cols-6">
-            <div
-              className={`rounded-[1.5rem] border p-5 ${statCardStyles.total}`}
-            >
-              <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
-                Total
-              </p>
-              <p className="mt-3 text-3xl font-semibold">{leadStats.total}</p>
-            </div>
+          <div
+            className={`hidden h-10 w-10 items-center justify-center rounded-2xl border border-[#D4AF37]/30 bg-[#D4AF37]/10 text-sm font-black text-[#D4AF37] ${
+              sidebarOpen ? "lg:hidden" : "lg:flex"
+            }`}
+          >
+            T
+          </div>
 
-            {Object.entries(statusLabels).map(([status, label]) => (
-              <div
-                key={status}
-                className={`rounded-[1.5rem] border p-5 ${statCardStyles[status]}`}
-              >
-                <p className="text-xs uppercase tracking-[0.2em] opacity-80">
-                  {label}
-                </p>
-                <p className="mt-3 text-3xl font-semibold">
-                  {leadStats[status]}
-                </p>
-              </div>
-            ))}
-          </section>
+          <button
+            type="button"
+            onClick={() => setSidebarOpen((previous) => !previous)}
+            className="hidden rounded-full border border-white/10 px-3 py-2 text-xs text-zinc-400 transition hover:border-[#D4AF37]/50 hover:text-[#D4AF37] lg:block"
+          >
+            {sidebarOpen ? "←" : "→"}
+          </button>
 
-          <section className="mt-8 rounded-[1.5rem] border border-white/10 bg-black/45 p-5 backdrop-blur">
-            <div className="grid gap-4 lg:grid-cols-[1.4fr_0.8fr_auto] lg:items-end">
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-500">
-                  Buscar lead
-                </label>
+          <button
+            type="button"
+            onClick={() => setMobileSidebarOpen(false)}
+            className="rounded-full border border-white/10 px-3 py-2 text-xs text-zinc-400 transition hover:text-white lg:hidden"
+          >
+            ✕
+          </button>
+        </div>
 
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(event) => setSearchTerm(event.target.value)}
-                  placeholder="Buscar por nome, empresa, e-mail, WhatsApp, serviço ou mensagem..."
-                  className="mt-3 w-full rounded-2xl border border-white/10 bg-zinc-950/90 px-5 py-4 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-white/30"
-                />
-              </div>
+        <div className="flex-1 overflow-y-auto p-3">
+          <div className={`${sidebarOpen ? "lg:block" : "lg:hidden"} mb-3 px-2`}>
+            <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-600">
+              Administração
+            </p>
+          </div>
 
-              <div>
-                <label className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-500">
-                  Filtrar por status
-                </label>
+          <nav className="grid gap-2">
+            {sidebarItems.map((item) => {
+              const isActive = item.active;
 
-                <select
-                  value={selectedStatus}
-                  onChange={(event) => setSelectedStatus(event.target.value)}
-                  className="mt-3 w-full rounded-2xl border border-white/10 bg-zinc-950/90 px-5 py-4 text-sm text-white outline-none transition focus:border-white/30"
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  className={`group flex items-center gap-3 rounded-xl border px-3 py-3 text-left transition ${
+                    isActive
+                      ? "border-[#D4AF37]/50 bg-[#D4AF37] text-black"
+                      : "border-white/5 bg-white/[0.02] text-zinc-400 hover:border-white/15 hover:bg-white/[0.05] hover:text-white"
+                  }`}
                 >
-                  {statusFilterOptions.map((status) => (
-                    <option key={status.value} value={status.value}>
-                      {status.label}
-                    </option>
-                  ))}
-                </select>
+                  <span
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-[11px] font-bold ${
+                      isActive
+                        ? "bg-black text-[#D4AF37]"
+                        : "bg-black/60 text-zinc-500 group-hover:text-[#D4AF37]"
+                    }`}
+                  >
+                    {item.label.slice(0, 1)}
+                  </span>
+
+                  <span className={`${sidebarOpen ? "lg:block" : "lg:hidden"}`}>
+                    <span className="block text-xs font-semibold">
+                      {item.label}
+                    </span>
+                    <span
+                      className={`mt-1 block text-[10px] ${
+                        isActive ? "text-black/65" : "text-zinc-600"
+                      }`}
+                    >
+                      {item.description}
+                    </span>
+                  </span>
+                </a>
+              );
+            })}
+          </nav>
+
+          <div
+            className={`mt-6 rounded-xl border border-white/10 bg-black/35 p-4 ${
+              sidebarOpen ? "lg:block" : "lg:hidden"
+            }`}
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-zinc-600">
+              Resumo
+            </p>
+
+            <div className="mt-4 grid gap-3 text-xs">
+              <div className="flex items-center justify-between text-zinc-400">
+                <span>Total</span>
+                <strong className="text-white">{leadStats.total}</strong>
               </div>
 
-              <button
-                type="button"
-                onClick={clearFilters}
-                disabled={!hasActiveFilters}
-                className="rounded-full border border-white/15 px-6 py-4 text-sm font-semibold text-white transition hover:border-white/35 hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                Limpar filtros
-              </button>
+              <div className="flex items-center justify-between text-zinc-400">
+                <span>Novos</span>
+                <strong className="text-blue-200">{leadStats.NEW}</strong>
+              </div>
+
+              <div className="flex items-center justify-between text-zinc-400">
+                <span>Convertidos</span>
+                <strong className="text-emerald-200">
+                  {leadStats.CONVERTED}
+                </strong>
+              </div>
             </div>
-
-            <div className="mt-5 flex flex-col gap-2 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
-              <p>
-                Mostrando{" "}
-                <span className="font-semibold text-white">
-                  {filteredLeads.length}
-                </span>{" "}
-                de{" "}
-                <span className="font-semibold text-white">{leads.length}</span>{" "}
-                leads.
-              </p>
-
-              {hasActiveFilters && (
-                <p>
-                  Filtros ativos:{" "}
-                  <span className="text-zinc-300">
-                    {selectedStatus !== "ALL"
-                      ? statusLabels[selectedStatus] || selectedStatus
-                      : "Todos os status"}
-                    {searchTerm.trim() ? ` • Busca: "${searchTerm}"` : ""}
-                  </span>
-                </p>
-              )}
-            </div>
-          </section>
-        </header>
-
-        {errorMessage && (
-          <div className="mt-8 rounded-2xl border border-red-500/20 bg-red-500/10 px-5 py-4 text-sm text-red-200 backdrop-blur">
-            {errorMessage}
           </div>
-        )}
+        </div>
 
-        {loading ? (
-          <div className="mt-10 rounded-[2rem] border border-white/10 bg-zinc-950/85 p-8 text-zinc-400 backdrop-blur-xl">
-            Carregando leads...
+        <div className="border-t border-white/10 p-3">
+          <div className={`grid gap-2 ${sidebarOpen ? "lg:block" : "lg:hidden"}`}>
+            <button
+              type="button"
+              onClick={fetchLeads}
+              className="w-full rounded-xl border border-white/10 px-3 py-3 text-left text-xs font-semibold text-zinc-300 transition hover:border-white/25 hover:bg-white/5 hover:text-white"
+            >
+              Atualizar leads
+            </button>
+
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="mt-2 w-full rounded-xl border border-red-500/20 px-3 py-3 text-left text-xs font-semibold text-red-200 transition hover:bg-red-500/10"
+            >
+              Sair
+            </button>
           </div>
-        ) : filteredLeads.length === 0 ? (
-          <div className="mt-10 rounded-[2rem] border border-white/10 bg-zinc-950/85 p-8 text-zinc-400 backdrop-blur-xl">
-            Nenhum lead encontrado com os filtros aplicados.
+
+          <div
+            className={`hidden gap-2 ${sidebarOpen ? "lg:hidden" : "lg:grid"}`}
+          >
+            <button
+              type="button"
+              onClick={fetchLeads}
+              title="Atualizar"
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-xs font-bold text-zinc-400 transition hover:text-white"
+            >
+              ↻
+            </button>
+
+            <button
+              type="button"
+              title="Sair"
+              onClick={handleLogout}
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 text-xs font-bold text-red-200 transition hover:bg-red-500/10"
+            >
+              S
+            </button>
           </div>
-        ) : (
-          <section className="mt-10 grid gap-6">
-            {filteredLeads.map((lead) => (
-              <LeadCard
-                key={lead.id}
-                lead={lead}
-                updating={updatingLeadId === lead.id}
-                deleting={deletingLeadId === lead.id}
-                onStatusChange={handleStatusChange}
-                onDelete={handleDeleteLead}
-              />
-            ))}
-          </section>
-        )}
+        </div>
+      </aside>
+
+      <div
+        className={`relative z-10 min-h-screen transition-all duration-300 ${
+          sidebarOpen ? "lg:pl-64" : "lg:pl-20"
+        }`}
+      >
+        <div className="px-4 py-4 md:px-6 lg:px-7">
+          <div className="mx-auto max-w-6xl">
+            <header className="rounded-[1.5rem] border border-white/10 bg-zinc-950/85 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.55)] backdrop-blur-xl md:p-6">
+              <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
+                <div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setMobileSidebarOpen(true)}
+                      className="rounded-full border border-white/10 px-4 py-2 text-xs text-zinc-300 transition hover:border-[#D4AF37]/50 hover:text-[#D4AF37] lg:hidden"
+                    >
+                      Menu
+                    </button>
+
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-[#D4AF37]">
+                      Painel interno
+                    </p>
+                  </div>
+
+                  <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white md:text-5xl">
+                    Leads recebidos
+                  </h1>
+
+                  <p className="mt-3 max-w-3xl text-sm text-zinc-400">
+                    Acompanhe, organize e converta os contatos enviados pela
+                    landing page da TRIA Company.
+                  </p>
+
+                  <div className="mt-4 inline-flex rounded-full border border-white/10 bg-black/35 px-4 py-2 text-xs text-zinc-400">
+                    Mostrando{" "}
+                    <span className="mx-2 font-semibold text-[#D4AF37]">
+                      {filteredLeads.length}
+                    </span>
+                    de{" "}
+                    <span className="ml-2 font-semibold text-white">
+                      {leads.length}
+                    </span>{" "}
+                    leads
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="/admin/content"
+                    className="rounded-full border border-[#D4AF37]/60 px-5 py-3 text-xs font-semibold text-[#D4AF37] transition hover:bg-[#D4AF37] hover:text-black"
+                  >
+                    Conteúdo do site
+                  </a>
+
+                  <button
+                    onClick={fetchLeads}
+                    className="rounded-full bg-white px-5 py-3 text-xs font-semibold text-black transition hover:bg-zinc-200"
+                  >
+                    Atualizar lista
+                  </button>
+                </div>
+              </div>
+
+              <section className="mt-6 grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+                <div
+                  className={`rounded-xl border p-4 ${statCardStyles.total}`}
+                >
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+                    Total
+                  </p>
+                  <p className="mt-2 text-2xl font-semibold">
+                    {leadStats.total}
+                  </p>
+                </div>
+
+                {Object.entries(statusLabels).map(([status, label]) => (
+                  <div
+                    key={status}
+                    className={`rounded-xl border p-4 ${statCardStyles[status]}`}
+                  >
+                    <p className="text-[10px] uppercase tracking-[0.2em] opacity-80">
+                      {label}
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold">
+                      {leadStats[status]}
+                    </p>
+                  </div>
+                ))}
+              </section>
+
+              <section className="mt-6 rounded-xl border border-white/10 bg-black/45 p-4 backdrop-blur">
+                <div className="grid gap-4 xl:grid-cols-[1.4fr_0.8fr_auto] xl:items-end">
+                  <div>
+                    <label className="text-[10px] font-semibold uppercase tracking-[0.25em] text-zinc-500">
+                      Buscar lead
+                    </label>
+
+                    <input
+                      type="text"
+                      value={searchTerm}
+                      onChange={(event) => setSearchTerm(event.target.value)}
+                      placeholder="Buscar por nome, empresa, e-mail, WhatsApp, serviço ou mensagem..."
+                      className="mt-2 w-full rounded-xl border border-white/10 bg-zinc-950/90 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-[#D4AF37]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] font-semibold uppercase tracking-[0.25em] text-zinc-500">
+                      Filtrar por status
+                    </label>
+
+                    <select
+                      value={selectedStatus}
+                      onChange={(event) => setSelectedStatus(event.target.value)}
+                      className="mt-2 w-full rounded-xl border border-white/10 bg-zinc-950/90 px-4 py-3 text-sm text-white outline-none transition focus:border-[#D4AF37]"
+                    >
+                      {statusFilterOptions.map((status) => (
+                        <option key={status.value} value={status.value}>
+                          {status.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={clearFilters}
+                    disabled={!hasActiveFilters}
+                    className="rounded-full border border-white/15 px-5 py-3 text-xs font-semibold text-white transition hover:border-white/35 hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    Limpar filtros
+                  </button>
+                </div>
+
+                <div className="mt-4 flex flex-col gap-2 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
+                  <p>
+                    Mostrando{" "}
+                    <span className="font-semibold text-white">
+                      {filteredLeads.length}
+                    </span>{" "}
+                    de{" "}
+                    <span className="font-semibold text-white">
+                      {leads.length}
+                    </span>{" "}
+                    leads.
+                  </p>
+
+                  {hasActiveFilters && (
+                    <p>
+                      Filtros ativos:{" "}
+                      <span className="text-zinc-300">
+                        {selectedStatus !== "ALL"
+                          ? statusLabels[selectedStatus] || selectedStatus
+                          : "Todos os status"}
+                        {searchTerm.trim() ? ` • Busca: "${searchTerm}"` : ""}
+                      </span>
+                    </p>
+                  )}
+                </div>
+              </section>
+            </header>
+
+            {errorMessage && (
+              <div className="mt-5 rounded-xl border border-red-500/20 bg-red-500/10 px-5 py-3 text-sm text-red-200 backdrop-blur">
+                {errorMessage}
+              </div>
+            )}
+
+            {loading ? (
+              <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-zinc-950/85 p-6 text-sm text-zinc-400 backdrop-blur-xl">
+                Carregando leads...
+              </div>
+            ) : filteredLeads.length === 0 ? (
+              <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-zinc-950/85 p-6 text-sm text-zinc-400 backdrop-blur-xl">
+                Nenhum lead encontrado com os filtros aplicados.
+              </div>
+            ) : (
+              <section className="mt-6 grid gap-4 pb-12">
+                {filteredLeads.map((lead) => (
+                  <LeadCard
+                    key={lead.id}
+                    lead={lead}
+                    updating={updatingLeadId === lead.id}
+                    deleting={deletingLeadId === lead.id}
+                    onStatusChange={handleStatusChange}
+                    onDelete={handleDeleteLead}
+                  />
+                ))}
+              </section>
+            )}
+          </div>
+        </div>
       </div>
     </main>
   );
