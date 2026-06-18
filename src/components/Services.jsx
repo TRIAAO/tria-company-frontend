@@ -23,9 +23,12 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="areas" className="bg-[#050505] px-6 py-28 text-white lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="max-w-3xl">
+    <section
+      id="areas"
+      className="bg-[#050505] px-6 py-28 text-white lg:px-8"
+    >
+      <div className="mx-auto max-w-[1380px]">
+        <div className="max-w-4xl">
           <p className="text-sm font-bold uppercase tracking-[0.35em] text-[#D4AF37]">
             Áreas de atuação
           </p>
@@ -34,28 +37,31 @@ export default function Services() {
             Três frentes. Uma lógica única.
           </h2>
 
-          <p className="mt-6 text-lg leading-8 text-zinc-300">
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-300">
             A TRIA atua em três dimensões que, juntas, formam a infraestrutura
             intelectual de uma organização: o que ela sabe, como ela opera e
             como ela se comunica.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-6 lg:grid-cols-3">
+        <div className="mt-16 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {services.map((service) => (
             <article
               key={service.number}
-              className="group rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 transition hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/[0.06]"
+              className="group flex min-h-[360px] flex-col rounded-[2rem] border border-white/10 bg-white/[0.03] px-10 py-9 transition hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/[0.06]"
             >
               <span className="text-sm font-bold tracking-[0.3em] text-[#D4AF37]">
                 {service.number}
               </span>
 
-              <h3 className="mt-8 text-2xl font-semibold leading-tight text-white">
+              <h3 className="mt-8 min-h-[64px] text-2xl font-semibold leading-tight text-white">
                 {service.title}
               </h3>
 
-              <p className="mt-6 text-base leading-8 text-zinc-400">
+              <p
+                lang="pt-BR"
+                className="mt-7 w-full break-words text-justify text-[15px] leading-7 tracking-normal text-zinc-400 [hyphens:auto] [text-align-last:left] [text-justify:inter-word]"
+              >
                 {service.description}
               </p>
             </article>

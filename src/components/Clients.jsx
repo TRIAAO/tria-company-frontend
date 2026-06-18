@@ -1,32 +1,50 @@
 import React from "react";
 import useSiteContent, { resolveMediaUrl } from "../hooks/useSiteContent";
 
+const defaultPartners = [
+  {
+    name: "Blessed Home",
+    logo: "/images/web_800x300/blessed-home-web.png",
+  },
+  {
+    name: "Sociedade Mineira de Catoca",
+    logo: "/images/web_800x300/catoca-web.png",
+  },
+  {
+    name: "Editora Quitanda",
+    logo: "/images/web_800x300/editora-quitanda-web.png",
+  },
+  {
+    name: "Grupo Brazon",
+    logo: "/images/web_800x300/grupo-brazon-web.png",
+  },
+  {
+    name: "Universidade Metropolitana de Angola",
+    logo: "/images/web_800x300/imetro-web.png",
+  },
+];
+
 const fallbackClients = {
   label: "CLIENTES E ORGANIZAÇÕES",
   title: "Organizações que confiam na TRIA.",
   description:
     "A TRIA trabalha com empresas, instituições e organizações que precisam estruturar conhecimento, comunicar com autoridade e construir soluções de longo prazo.",
-  items: [],
+  items: defaultPartners,
 };
 
 function getValidItems(items) {
   if (!Array.isArray(items)) return [];
 
   return items.filter((client) => {
-    return (
-      client &&
-      (client.name ||
-        client.sector ||
-        client.country ||
-        client.logo ||
-        client.description)
-    );
+    return client && (client.name || client.logo);
   });
 }
 
 export default function Clients() {
   const { data: clients } = useSiteContent("clients", fallbackClients);
-  const items = getValidItems(clients.items);
+
+  const cmsItems = getValidItems(clients.items);
+  const items = cmsItems.length > 0 ? cmsItems : defaultPartners;
 
   return (
     <section
@@ -34,7 +52,7 @@ export default function Clients() {
       className="bg-[#050505] px-6 py-28 text-white lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.35em] text-[#D4AF37]">
               {clients.label || fallbackClients.label}
@@ -45,61 +63,40 @@ export default function Clients() {
             </h2>
           </div>
 
-          <p className="text-lg leading-8 text-zinc-300">
+          <p className="max-w-3xl text-lg leading-8 text-zinc-300">
             {clients.description || fallbackClients.description}
           </p>
         </div>
 
-        {items.length === 0 ? (
-          <div className="mt-16 rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 text-zinc-400">
-            Nenhuma organização cadastrada no momento.
-          </div>
-        ) : (
-          <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 border-y border-white/10 py-12">
+          <div className="grid items-center gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {items.map((client, index) => {
               const logoUrl = resolveMediaUrl(client.logo);
 
               return (
-                <article
+                <div
                   key={`${client.name || "cliente"}-${index}`}
-                  className="group rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 transition hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/[0.06]"
+                 className="group flex min-h-[118px] items-center justify-center rounded-3xl border border-white/10 bg-[#D8D8D2] p-5 shadow-[0_20px_60px_rgba(0,0,0,0.25)] transition duration-500 hover:-translate-y-1 hover:border-[#D4AF37]/60 hover:bg-[#E3E3DD] hover:shadow-[0_24px_80px_rgba(212,175,55,0.12)]"
                 >
-                  <div className="flex h-24 items-center justify-center rounded-3xl border border-white/10 bg-black/40 p-6">
-                    {logoUrl ? (
-                      <img
-                        src={logoUrl}
-                        alt={client.name || "Cliente TRIA"}
-                        className="max-h-14 max-w-full object-contain grayscale transition duration-500 group-hover:grayscale-0"
-                        onError={(event) => {
-                          event.currentTarget.style.display = "none";
-                        }}
-                      />
-                    ) : (
-                      <span className="text-center text-sm font-bold uppercase tracking-[0.25em] text-zinc-500">
-                        Logo
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="mt-8">
-                    <h3 className="text-2xl font-semibold text-white">
-                      {client.name || "Cliente não informado"}
-                    </h3>
-
-                    <p className="mt-2 text-sm font-semibold uppercase tracking-[0.2em] text-[#D4AF37]">
-                      {client.sector || "Setor"}
-                      {client.country ? ` — ${client.country}` : ""}
-                    </p>
-
-                    <p className="mt-6 text-base leading-8 text-zinc-400">
-                      {client.description || "Descrição ainda não cadastrada."}
-                    </p>
-                  </div>
-                </article>
+                  {logoUrl ? (
+                    <img
+                      src={logoUrl}
+                      alt={client.name || "Parceiro TRIA"}
+                      className="max-h-20 max-w-[190px] object-contain transition duration-500 group-hover:scale-[1.04]"
+                      onError={(event) => {
+                        event.currentTarget.style.display = "none";
+                      }}
+                    />
+                  ) : (
+                    <span className="text-center text-xs font-bold uppercase tracking-[0.25em] text-zinc-500">
+                      {client.name || "Parceiro"}
+                    </span>
+                  )}
+                </div>
               );
             })}
           </div>
-        )}
+        </div>
       </div>
     </section>
   );

@@ -12,7 +12,21 @@ const fallbackTeam = {
       role: "Fundador e CEO",
       location: "São Paulo / Luanda",
       image: "/images/ceo-tria.png",
-      bio: "Filósofo, pastor, escritor e estrategista. Mestre em Artes e Cultura pela Universidade Presbiteriana Mackenzie. Especializações em Economia pelo Instituto Mises Brasil e Inovação Centrada no Ser Humano pela Hyper Island. Colunista do Jornal de Angola. Prêmio Pontes do Atlântico 2025. Constrói infraestrutura intelectual para organizações em Angola e no Brasil há mais de uma década.",
+      bio: "Filósofo, escritor e estrategista. Mestre em Artes e Cultura pela Universidade Presbiteriana Mackenzie. Especializações em Economia pelo Instituto Mises Brasil e Inovação Centrada no Ser Humano pela Hyper Island. Empreendedor serial, fundou a Editora Quitanda no Brasil e cofundou a GESP em Angola. Prêmio Pontes do Atlântico 2025. Constrói infraestrutura intelectual para organizações em Angola e no Brasil há mais de uma década.",
+    },
+    {
+      name: "Gustavo Ipolito Jr.",
+      role: "Diretor de Novos Negócios",
+      location: "Brasil",
+      image: "/images/Gustavo_Ipolito.jpg",
+      bio: "Empreendedor e founder/CEO da GoldStreet Venture Capital. Graduado em Sistemas de Informação, com MBA Executivo em Gestão Empresarial pela FGV-SP. Construiu carreira em multinacionais como IBM, Xerox, Siemens Business Services e Williams Lea, grupo DHL, antes de liderar a fusão que criou o maior print center da América Latina e o 5º maior do mundo. Eleito um dos Top Ten Mentors da InvesteSP, atua hoje como conselheiro e mentor de empresários em crescimento exponencial.",
+    },
+    {
+      name: "Wilson Dala",
+      role: "Tech Engineer",
+      location: "Brasil",
+      image: "/images/wilson-dala.png",
+      bio: "Engenheiro de software com mais de uma década construindo infraestrutura digital robusta — do frontend ao deploy, passando por DevOps, cloud e bancos de dados. Passou por Riachuelo, Azimute Med, Linx/Stone e ZRFA antes de chegar à TRIA, onde sustenta tecnicamente as plataformas institucionais e os sistemas de longo prazo da empresa. Formado em Gestão Financeira Empresarial, com pós em Gestão Bancária e MBA em Gestão de Pessoas.",
     },
   ],
 };

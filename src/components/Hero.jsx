@@ -37,7 +37,7 @@ export default function Hero() {
             Conhecimento · Estratégia · Infraestrutura
           </div>
 
-          <h1 className="max-w-5xl text-5xl font-semibold leading-[1.05] tracking-[-0.04em] text-white drop-shadow-2xl md:text-7xl lg:text-8xl">
+          <h1 className="max-w-5xl text-4xl font-semibold leading-[1.08] tracking-[-0.04em] text-white drop-shadow-2xl md:text-6xl lg:text-7xl">
             Construímos a infraestrutura intelectual de organizações que não
             podem falhar.
           </h1>
@@ -50,13 +50,6 @@ export default function Hero() {
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <a
               href="#contato"
-              className="inline-flex items-center justify-center rounded-full bg-[#D4AF37] px-8 py-4 text-sm font-bold uppercase tracking-[0.2em] text-black shadow-[0_0_35px_rgba(212,175,55,0.28)] transition hover:bg-white"
-            >
-              Fale com a TRIA
-            </a>
-
-            <a
-              href="#metodo"
               className="inline-flex items-center justify-center rounded-full border border-white/30 bg-black/25 px-8 py-4 text-sm font-bold uppercase tracking-[0.2em] text-white backdrop-blur transition hover:border-[#D4AF37] hover:text-[#D4AF37]"
             >
               Conheça o nosso método

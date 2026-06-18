@@ -8,35 +8,18 @@ const fallbackContact = {
   title: "A próxima grande decisão começa com uma conversa.",
   description:
     "Se a sua organização precisa estruturar o que sabe, comunicar com autoridade ou construir uma plataforma de educação e conhecimento de longo prazo — fale com a TRIA.",
-  highlight:
-    "Infraestrutura intelectual para organizações que constroem para durar.",
-  services: [
-    "Educação Corporativa e Universidade Institucional",
-    "Estratégia e Comunicação Institucional",
-    "Projeto Editorial ou Publicação de Alto Padrão",
-    "Plataforma Digital Institucional",
-    "Outro projeto estratégico",
-  ],
+  
 };
-
-function getValidServices(services) {
-  if (!Array.isArray(services)) return fallbackContact.services;
-
-  const valid = services.filter((service) => String(service || "").trim());
-
-  return valid.length > 0 ? valid : fallbackContact.services;
-}
 
 export default function Contact() {
   const { data: contact } = useSiteContent("contact", fallbackContact);
-  const serviceOptions = getValidServices(contact.services);
 
   const [formData, setFormData] = useState({
     name: "",
     company: "",
     email: "",
     phone: "",
-    service_interest: "",
+    service_interest: "Contato institucional via landing page",
     message: "",
     source: "landing_page",
   });
@@ -65,7 +48,11 @@ export default function Contact() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          service_interest:
+            formData.service_interest || "Contato institucional via landing page",
+        }),
       });
 
       const data = await response.json();
@@ -76,13 +63,16 @@ export default function Contact() {
         return;
       }
 
-      setSuccessMessage("Mensagem enviada com sucesso. A TRIA entrará em contato.");
+      setSuccessMessage(
+        "Mensagem enviada com sucesso. A TRIA entrará em contato."
+      );
+
       setFormData({
         name: "",
         company: "",
         email: "",
         phone: "",
-        service_interest: "",
+        service_interest: "Contato institucional via landing page",
         message: "",
         source: "landing_page",
       });
@@ -95,7 +85,10 @@ export default function Contact() {
   }
 
   return (
-    <section id="contato" className="bg-[#050505] px-6 py-28 text-white lg:px-8">
+    <section
+      id="contato"
+      className="bg-[#050505] px-6 py-28 text-white lg:px-8"
+    >
       <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.9fr_1.1fr]">
         <div>
           <p className="text-sm font-bold uppercase tracking-[0.35em] text-[#D4AF37]">
@@ -105,10 +98,6 @@ export default function Contact() {
           <h2 className="mt-6 text-4xl font-semibold leading-tight tracking-[-0.03em] md:text-5xl">
             {contact.title || fallbackContact.title}
           </h2>
-
-          <p className="mt-6 text-lg leading-8 text-zinc-300">
-            {contact.description || fallbackContact.description}
-          </p>
 
           <div className="mt-10 rounded-[2rem] border border-[#D4AF37]/30 bg-[#D4AF37]/10 p-8">
             <p className="text-2xl font-medium leading-snug text-white">
@@ -126,6 +115,7 @@ export default function Contact() {
               <label className="mb-2 block text-sm font-medium text-zinc-300">
                 Nome
               </label>
+
               <input
                 type="text"
                 value={formData.name}
@@ -140,6 +130,7 @@ export default function Contact() {
               <label className="mb-2 block text-sm font-medium text-zinc-300">
                 Organização
               </label>
+
               <input
                 type="text"
                 value={formData.company}
@@ -153,6 +144,7 @@ export default function Contact() {
               <label className="mb-2 block text-sm font-medium text-zinc-300">
                 E-mail
               </label>
+
               <input
                 type="email"
                 value={formData.email}
@@ -167,6 +159,7 @@ export default function Contact() {
               <label className="mb-2 block text-sm font-medium text-zinc-300">
                 Telefone
               </label>
+
               <input
                 type="tel"
                 value={formData.phone}
@@ -179,29 +172,9 @@ export default function Contact() {
 
           <div className="mt-6">
             <label className="mb-2 block text-sm font-medium text-zinc-300">
-              Serviço de interesse
-            </label>
-            <select
-              value={formData.service_interest}
-              onChange={(event) =>
-                updateField("service_interest", event.target.value)
-              }
-              required
-              className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition focus:border-[#D4AF37]"
-            >
-              <option value="">Selecione uma opção</option>
-              {serviceOptions.map((option) => (
-                <option key={option} value={option} className="bg-black">
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="mt-6">
-            <label className="mb-2 block text-sm font-medium text-zinc-300">
               Mensagem
             </label>
+
             <textarea
               rows="6"
               value={formData.message}

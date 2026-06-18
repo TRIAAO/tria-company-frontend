@@ -20,21 +20,12 @@ export default function About() {
             qualquer instituição é a forma como ela pensa, organiza e comunica o
             próprio conhecimento.
           </p>
-
-          <p>
-            Atuamos na interseção entre Angola e Brasil: dois mercados com
-            necessidades distintas e uma lacuna em comum: organizações que
-            crescem sem estrutura intelectual suficiente para sustentar esse
-            crescimento.
-          </p>
-
           <p>
             Não somos uma agência. Não somos uma consultoria convencional. Somos
             uma empresa de infraestrutura intelectual: estruturamos o que as
             organizações sabem, para que possam executar com consistência,
             comunicar com autoridade e crescer com solidez.
           </p>
-
           <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.03] p-8">
             <p className="text-2xl font-medium leading-snug text-white">
               Não somos uma agência. Somos ecossistema de infraestrutura
