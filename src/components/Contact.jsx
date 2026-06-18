@@ -3,27 +3,31 @@ import useSiteContent from "../hooks/useSiteContent";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
 
+const DEFAULT_SERVICE_INTEREST = "Contato institucional via landing page";
+
 const fallbackContact = {
   label: "CONTATO",
   title: "A próxima grande decisão começa com uma conversa.",
   description:
     "Se a sua organização precisa estruturar o que sabe, comunicar com autoridade ou construir uma plataforma de educação e conhecimento de longo prazo — fale com a TRIA.",
-  
+  highlight:
+    "Infraestrutura intelectual para organizações que constroem para durar.",
+};
+
+const initialFormData = {
+  name: "",
+  company: "",
+  email: "",
+  phone: "",
+  service_interest: DEFAULT_SERVICE_INTEREST,
+  message: "",
+  source: "landing_page",
 };
 
 export default function Contact() {
   const { data: contact } = useSiteContent("contact", fallbackContact);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    company: "",
-    email: "",
-    phone: "",
-    service_interest: "Contato institucional via landing page",
-    message: "",
-    source: "landing_page",
-  });
-
+  const [formData, setFormData] = useState(initialFormData);
   const [sending, setSending] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -35,8 +39,45 @@ export default function Contact() {
     }));
   }
 
+  function buildPayload() {
+    return {
+      name: String(formData.name || "").trim(),
+      company: String(formData.company || "").trim(),
+      email: String(formData.email || "").trim(),
+      phone: String(formData.phone || "").trim(),
+      service_interest:
+        String(formData.service_interest || "").trim() ||
+        DEFAULT_SERVICE_INTEREST,
+      message: String(formData.message || "").trim(),
+      source: "landing_page",
+    };
+  }
+
+  function getApiErrorMessage(data) {
+    if (Array.isArray(data?.detail)) {
+      const firstError = data.detail[0];
+
+      if (firstError?.loc && firstError?.msg) {
+        return `Campo inválido: ${firstError.loc.join(".")} — ${firstError.msg}`;
+      }
+    }
+
+    if (typeof data?.detail === "string") {
+      return data.detail;
+    }
+
+    return "Não foi possível enviar sua mensagem. Tente novamente.";
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
+
+    const payload = buildPayload();
+
+    if (!payload.name || !payload.email || !payload.message) {
+      setErrorMessage("Preencha nome, e-mail e mensagem antes de enviar.");
+      return;
+    }
 
     setSending(true);
     setSuccessMessage("");
@@ -48,18 +89,14 @@ export default function Contact() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...formData,
-          service_interest:
-            formData.service_interest || "Contato institucional via landing page",
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        console.error(data);
-        setErrorMessage("Não foi possível enviar sua mensagem. Tente novamente.");
+        console.error("Erro ao enviar lead:", data);
+        setErrorMessage(getApiErrorMessage(data));
         return;
       }
 
@@ -67,17 +104,9 @@ export default function Contact() {
         "Mensagem enviada com sucesso. A TRIA entrará em contato."
       );
 
-      setFormData({
-        name: "",
-        company: "",
-        email: "",
-        phone: "",
-        service_interest: "Contato institucional via landing page",
-        message: "",
-        source: "landing_page",
-      });
+      setFormData(initialFormData);
     } catch (error) {
-      console.error(error);
+      console.error("Erro de conexão ao enviar lead:", error);
       setErrorMessage("Erro de conexão. Confirme sua internet e tente novamente.");
     } finally {
       setSending(false);
