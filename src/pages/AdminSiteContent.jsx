@@ -2,6 +2,37 @@ import { useEffect, useMemo, useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
 
+const officialTeamContent = {
+  label: "QUEM CONSTRÓI",
+  title: "Pessoas que pensam antes de executar.",
+  description:
+    "A TRIA é uma empresa de pessoas com formação densa, experiência real e compromisso com o longo prazo das organizações que atendemos.",
+  items: [
+    {
+      name: "Tomás Camba",
+      role: "Fundador e CEO",
+      location: "São Paulo / Luanda",
+      image: "/images/ceo-tria.png",
+      bio: "Filósofo, escritor e estrategista. Mestre em Artes e Cultura pela Universidade Presbiteriana Mackenzie. Especializações em Economia pelo Instituto Mises Brasil e Inovação Centrada no Ser Humano pela Hyper Island. Empreendedor serial, fundou a Editora Quitanda no Brasil e cofundou a GESP em Angola. Prêmio Pontes do Atlântico 2025. Constrói infraestrutura intelectual para organizações em Angola e no Brasil há mais de uma década.",
+    },
+    {
+      name: "Gustavo Ipolito Jr.",
+      role: "Diretor de Novos Negócios",
+      location: "Brasil",
+      image: "/images/Gustavo_Ipolito.jpg",
+      bio: "Empreendedor e founder/CEO da GoldStreet Venture Capital. Graduado em Sistemas de Informação, com MBA Executivo em Gestão Empresarial pela FGV-SP. Construiu carreira em multinacionais como IBM, Xerox, Siemens Business Services e Williams Lea, grupo DHL, antes de liderar a fusão que criou o maior print center da América Latina e o 5º maior do mundo. Eleito um dos Top Ten Mentors da InvesteSP, atua hoje como conselheiro e mentor de empresários em crescimento exponencial.",
+    },
+    {
+      name: "Wilson Dala",
+      role: "Tech Engineer",
+      location: "Brasil",
+      image: "/images/wilson-dala.png",
+      bio: "Engenheiro de software com mais de uma década construindo infraestrutura digital robusta — do frontend ao deploy, passando por DevOps, cloud e bancos de dados. Passou por Riachuelo, Azimute Med, Linx/Stone e ZRFA antes de chegar à TRIA, onde sustenta tecnicamente as plataformas institucionais e os sistemas de longo prazo da empresa. Formado em Gestão Financeira Empresarial, com pós em Gestão Bancária e MBA em Gestão de Pessoas.",
+    },
+  ],
+};
+
+
 const tabs = [
   { id: "hero", label: "Hero", description: "Banner principal" },
   { id: "about", label: "Sobre", description: "Texto institucional" },
@@ -48,12 +79,7 @@ const emptyContent = {
     description: "",
     items: [],
   },
-  team: {
-    label: "",
-    title: "",
-    description: "",
-    items: [],
-  },
+  team: clone(officialTeamContent),
   clients: {
     label: "",
     title: "",
@@ -411,6 +437,20 @@ export default function AdminSiteContent() {
   function handleLogout() {
     localStorage.removeItem("tria_admin_auth");
     window.location.href = "/admin/login";
+  }
+
+  function loadOfficialTeam() {
+    const confirmed = window.confirm(
+      "Deseja carregar o time oficial da TRIA? Isso vai substituir os membros atuais da aba Time antes de salvar."
+    );
+
+    if (!confirmed) return;
+
+    update("team", clone(officialTeamContent));
+    setMessage(
+      "Time oficial carregado. Clique em Salvar alterações para gravar no CMS."
+    );
+    setErrorMessage("");
   }
 
   useEffect(() => {
@@ -1005,6 +1045,29 @@ export default function AdminSiteContent() {
                       textarea
                       rows={4}
                     />
+
+                    <div className="rounded-xl border border-[#D4AF37]/20 bg-[#D4AF37]/10 p-4">
+                      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div>
+                          <p className="text-sm font-semibold text-white">
+                            Time oficial da TRIA
+                          </p>
+                          <p className="mt-1 text-sm leading-6 text-zinc-400">
+                            Preenche automaticamente Tomás Camba, Gustavo Ipolito Jr. e Wilson Dala
+                            com cargos, bios e imagens oficiais.
+                          </p>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={loadOfficialTeam}
+                          className="rounded-full bg-[#D4AF37] px-5 py-3 text-xs font-semibold text-black transition hover:bg-white"
+                        >
+                          Carregar time oficial
+                        </button>
+                      </div>
+                    </div>
+
 
                     <ArrayEditor
                       title="Membros"
