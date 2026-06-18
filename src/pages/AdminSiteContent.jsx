@@ -23,15 +23,43 @@ const officialTeamContent = {
       bio: "Empreendedor e founder/CEO da GoldStreet Venture Capital. Graduado em Sistemas de Informação, com MBA Executivo em Gestão Empresarial pela FGV-SP. Construiu carreira em multinacionais como IBM, Xerox, Siemens Business Services e Williams Lea, grupo DHL, antes de liderar a fusão que criou o maior print center da América Latina e o 5º maior do mundo. Eleito um dos Top Ten Mentors da InvesteSP, atua hoje como conselheiro e mentor de empresários em crescimento exponencial.",
     },
     {
-      name: "Wilson Dala",
+      name: "Wilson Dos Santos Kahango Dala",
       role: "Tech Engineer",
-      location: "Brasil",
+      location: "São Paulo / Luanda",
       image: "/images/wilson-dala.png",
       bio: "Engenheiro de software com mais de uma década construindo infraestrutura digital robusta — do frontend ao deploy, passando por DevOps, cloud e bancos de dados. Passou por Riachuelo, Azimute Med, Linx/Stone e ZRFA antes de chegar à TRIA, onde sustenta tecnicamente as plataformas institucionais e os sistemas de longo prazo da empresa. Formado em Gestão Financeira Empresarial, com pós em Gestão Bancária e MBA em Gestão de Pessoas.",
     },
   ],
 };
 
+function resolveAdminMediaUrl(url) {
+  if (!url) return "";
+
+  const cleanUrl = String(url).trim();
+  const apiBaseUrl = API_URL.replace("/api/v1", "");
+
+  if (cleanUrl.startsWith("http://") || cleanUrl.startsWith("https://")) {
+    return cleanUrl;
+  }
+
+  if (cleanUrl.startsWith("/uploads")) {
+    return `${apiBaseUrl}${cleanUrl}`;
+  }
+
+  if (cleanUrl.startsWith("uploads")) {
+    return `${apiBaseUrl}/${cleanUrl}`;
+  }
+
+  if (cleanUrl.startsWith("/images")) {
+    return cleanUrl;
+  }
+
+  if (cleanUrl.startsWith("images")) {
+    return `/${cleanUrl}`;
+  }
+
+  return cleanUrl.startsWith("/") ? cleanUrl : `/${cleanUrl}`;
+}
 
 const tabs = [
   { id: "hero", label: "Hero", description: "Banner principal" },
@@ -211,10 +239,7 @@ function UploadField({ label, value, onChange, onUpload }) {
     }
   }
 
-  const previewUrl =
-    value && value.startsWith("/uploads")
-      ? `${API_URL.replace("/api/v1", "")}${value}`
-      : value;
+  const previewUrl = resolveAdminMediaUrl(value);
 
   return (
     <div>
@@ -1052,9 +1077,11 @@ export default function AdminSiteContent() {
                           <p className="text-sm font-semibold text-white">
                             Time oficial da TRIA
                           </p>
+
                           <p className="mt-1 text-sm leading-6 text-zinc-400">
-                            Preenche automaticamente Tomás Camba, Gustavo Ipolito Jr. e Wilson Dala
-                            com cargos, bios e imagens oficiais.
+                            Preenche automaticamente Tomás Camba, Gustavo
+                            Ipolito Jr. e Wilson Dos Santos Kahango Dala com
+                            cargos, bios e imagens oficiais.
                           </p>
                         </div>
 
@@ -1067,7 +1094,6 @@ export default function AdminSiteContent() {
                         </button>
                       </div>
                     </div>
-
 
                     <ArrayEditor
                       title="Membros"

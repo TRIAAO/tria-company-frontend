@@ -1,25 +1,34 @@
 import { useEffect, useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
-
 export const API_BASE_URL = API_URL.replace("/api/v1", "");
 
 export function resolveMediaUrl(url) {
   if (!url) return "";
 
-  if (url.startsWith("http://") || url.startsWith("https://")) {
-    return url;
+  const cleanUrl = String(url).trim();
+
+  if (cleanUrl.startsWith("http://") || cleanUrl.startsWith("https://")) {
+    return cleanUrl;
   }
 
-  if (url.startsWith("/uploads")) {
-    return `${API_BASE_URL}${url}`;
+  if (cleanUrl.startsWith("/uploads")) {
+    return `${API_BASE_URL}${cleanUrl}`;
   }
 
-  if (url.startsWith("uploads")) {
-    return `${API_BASE_URL}/${url}`;
+  if (cleanUrl.startsWith("uploads")) {
+    return `${API_BASE_URL}/${cleanUrl}`;
   }
 
-  return url;
+  if (cleanUrl.startsWith("/images")) {
+    return cleanUrl;
+  }
+
+  if (cleanUrl.startsWith("images")) {
+    return `/${cleanUrl}`;
+  }
+
+  return cleanUrl.startsWith("/") ? cleanUrl : `/${cleanUrl}`;
 }
 
 export default function useSiteContent(sectionKey, fallbackData) {
@@ -35,9 +44,7 @@ export default function useSiteContent(sectionKey, fallbackData) {
         const result = await response.json();
 
         if (!response.ok) {
-          if (isMounted) {
-            setData(fallbackData);
-          }
+          if (isMounted) setData(fallbackData);
           return;
         }
 
