@@ -6,7 +6,6 @@ const navLinks = [
   { href: "#mercados", label: "Onde atuamos" },
   { href: "#time", label: "Time" },
   { href: "#clientes", label: "Clientes" },
-  { href: "#depoimentos", label: "Depoimentos" },
   { href: "#contato", label: "Contato" },
 ];
 
